@@ -1,21 +1,26 @@
-const express = require('express');
-// const cors = require('cors');
-const { ApolloServer, gql } = require('apollo-server-express');
-const { PrismaClient } = require('@prisma/client');
+const express = require("express");
+const { ApolloServer, gql } = require("apollo-server-express");
+const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
 const app = express();
-// app.use(cors());
 
 const typeDefs = gql`
-type Product {
+  type Product {
     id: Int
     name: String
     category: String
     description: String
     price: Float
     rentPrice: Float
+    owners: [User]
+  }
+
+  type User {
+    id: Int
+    name: String
+    products: [Product]
   }
 
   type Query {
@@ -23,7 +28,7 @@ type Product {
   }
 
   type Mutation {
-    createProduct(name: String!, description: String!): Product
+    createUser(name: String!): User
   }
 `;
 
@@ -34,11 +39,10 @@ const resolvers = {
     },
   },
   Mutation: {
-    createProduct: async (_, { name, description }) => {
-      return await prisma.product.create({
+    createUser: async (_, { name }) => {
+      return await prisma.user.create({
         data: {
           name,
-          description,
         },
       });
     },
