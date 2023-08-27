@@ -17,4 +17,21 @@ model Product {
   description String?
   price       Float
   rentPrice   Float?
+  owners      UserProduct[]  // Establishes a many-to-many relationship
 }
+
+model User {
+  id      Int      @id @default(autoincrement())
+  name    String
+  products UserProduct[]  // Establishes a many-to-many relationship
+}
+
+model UserProduct {
+  id       Int     @id @default(autoincrement())
+  userId   Int
+  productId Int
+
+  user     User    @relation(fields: [userId], references: [id])
+  product  Product @relation(fields: [productId], references: [id])
+}
+
