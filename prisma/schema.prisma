@@ -14,7 +14,7 @@ model User {
   id       Int      @id @default(autoincrement())
   name     String
   email    String   @unique
-  products Product[]
+  products Product[] @relation("UserProducts")
 }
 
 model Product {
@@ -25,6 +25,5 @@ model Product {
   price       Float
   rentPrice   Float?
   rentType    String?
-  userId      Int
-  user        User     @relation(fields: [userId], references: [id])
+  users       User[]   @relation("UserProducts")
 }
