@@ -11,19 +11,27 @@ datasource db {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
+  id       Int       @id @default(autoincrement())
   name     String
-  email    String   @unique
-  products Product[] @relation("UserProducts")
+  email    String    @unique
+  userProducts UserProduct[]
 }
 
 model Product {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   title       String
   description String
   category    String
   price       Float
   rentPrice   Float?
   rentType    String?
-  users       User[]   @relation("UserProducts")
+  userProducts UserProduct[]
+}
+
+model UserProduct {
+  id      Int      @id @default(autoincrement())
+  userId  Int
+  productId Int
+  user    User     @relation(fields: [userId], references: [id])
+  product Product  @relation(fields: [productId], references: [id])
 }

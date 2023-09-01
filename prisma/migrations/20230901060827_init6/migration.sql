@@ -1,20 +1,33 @@
-/*
-  Warnings:
+-- CreateTable
+CREATE TABLE "User" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
 
-  - You are about to drop the column `userEmail` on the `Product` table. All the data in the column will be lost.
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
 
-*/
--- DropForeignKey
-ALTER TABLE "Product" DROP CONSTRAINT "Product_userEmail_fkey";
+-- CreateTable
+CREATE TABLE "Product" (
+    "id" SERIAL NOT NULL,
+    "title" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "category" TEXT NOT NULL,
+    "price" DOUBLE PRECISION NOT NULL,
+    "rentPrice" DOUBLE PRECISION,
+    "rentType" TEXT,
 
--- AlterTable
-ALTER TABLE "Product" DROP COLUMN "userEmail";
+    CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "_UserProducts" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_UserProducts_AB_unique" ON "_UserProducts"("A", "B");

@@ -10,7 +10,27 @@ const typeDefs = gql`
     id: Int
     name: String
     email: String
+    userProducts: [UserProduct!]
   }
+  type Product {
+    id: Int
+    title: String
+    description: String
+    category: String
+    price: Float
+    rentPrice: Float
+    rentType: String
+    userProducts: [UserProduct!]
+  }
+  type UserProduct {
+    id: Int       # Primary key
+    userId: Int   # Foreign key referencing User
+    productId: Int  # Foreign key referencing Product
+    user: User     # Relationship to User
+    product: Product  # Relationship to Product
+  }
+  
+  
 
   type Query {
     users: [User]
